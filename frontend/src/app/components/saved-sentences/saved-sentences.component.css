@@ -1,0 +1,36 @@
+.sentence-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sentence-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sentence-item p {
+  margin: 0.3rem 0;
+}
+
+.sentence-item button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--primary);
+  background: #fff;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+
+.sentence-item button:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.muted { color: var(--muted); }
+.small { font-size: 0.8rem; }
+.error { color: #c62828; }
