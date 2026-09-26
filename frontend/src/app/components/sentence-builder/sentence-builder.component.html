@@ -1,0 +1,69 @@
+<div class="card">
+  <h2>{{ editingSentenceId ? 'Edit sentence' : 'Build a sentence' }}</h2>
+
+  <label class="field">
+    <span>Title</span>
+    <input type="text" [(ngModel)]="title" placeholder="Give your sentence a title" />
+  </label>
+
+  <div class="builder-grid">
+    <div class="picker">
+      <label class="field">
+        <span>1. Choose a word type</span>
+        <select (change)="onSelectType($any($event.target).value)">
+          <option value="">-- Select a word type --</option>
+          <option *ngFor="let type of wordTypes" [value]="type.id">
+            {{ type.name }}
+          </option>
+        </select>
+      </label>
+
+      <div class="word-list" *ngIf="selectedTypeId">
+        <p class="muted" *ngIf="wordsForSelectedType.length === 0">
+          No words found for this type yet.
+        </p>
+        <button
+          type="button"
+          class="word-chip"
+          *ngFor="let word of wordsForSelectedType"
+          (click)="addWordToSentence(word)"
+        >
+          + {{ word.text }}
+        </button>
+      </div>
+    </div>
+
+    <div class="sentence-area">
+      <span class="field-label">2. Your sentence so far</span>
+
+      <div class="sentence-words" *ngIf="sentenceWords.length; else empty">
+        <div class="sentence-word" *ngFor="let word of sentenceWords; let i = index">
+          <span>{{ word.text }}</span>
+          <span class="controls">
+            <button type="button" (click)="moveWord(i, -1)" [disabled]="i === 0" title="Move left">&larr;</button>
+            <button type="button" (click)="moveWord(i, 1)" [disabled]="i === sentenceWords.length - 1" title="Move right">&rarr;</button>
+            <button type="button" (click)="removeWordAt(i)" title="Remove">&times;</button>
+          </span>
+        </div>
+      </div>
+      <ng-template #empty>
+        <p class="muted">Select a word type on the left, then add words here.</p>
+      </ng-template>
+
+      <p class="preview" *ngIf="sentenceWords.length">
+        <strong>Preview:</strong> {{ sentencePreview }}
+      </p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="primary" (click)="saveSentence()" [disabled]="saving">
+      {{ saving ? 'Saving…' : (editingSentenceId ? 'Update sentence' : 'Save sentence') }}
+    </button>
+    <button type="button" (click)="clearSentence()">Start over</button>
+    <button type="button" (click)="viewSaved()">View saved sentences</button>
+  </div>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+</div>
